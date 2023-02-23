@@ -1,27 +1,33 @@
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class HiloEjecutable implements Runnable {
     public static final int MAX_EJECUCIONES = 5;
 
-    int ejecuciones = 1;
+    private int ejecucionesRestantes = MAX_EJECUCIONES;
 
     @Override
     public void run() {
-
-        // Creo un calendario
+        // Imprime la hora de inicio de la tarea
         Calendar calendario = new GregorianCalendar();
-        System.out.println("Hora inicio tarea: " +
-                calendario.get(Calendar.HOUR_OF_DAY) + ":" +
-                calendario.get(Calendar.MINUTE) + ":" +
-                calendario.get(Calendar.SECOND));
-        System.out.println("Tarea en ejecución...");
-        System.out.println("Ejecución acabada: " + ejecuciones);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        System.out.println("Hora inicio tarea: " + sdf.format(calendario.getTime()));
 
-        // Control de ejecuciones
-        if (ejecuciones < 5) {
-            ejecuciones++;
-        }
+        // Ejecuta la tarea
+        System.out.println("Tarea en ejecución...");
+
+        // Actualiza el número de ejecuciones restantes
+        ejecucionesRestantes--;
     }
 
+    // Devuelve true si quedan ejecuciones por realizar
+    public boolean hayEjecucionesRestantes() {
+        return ejecucionesRestantes > 0;
+    }
+
+    // Reinicia el contador de ejecuciones
+    public void reiniciar() {
+        ejecucionesRestantes = MAX_EJECUCIONES;
+    }
 }
